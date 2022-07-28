@@ -12,10 +12,11 @@ def encrypt_message(message, key):
     cipher = AES.new(key, AES.MODE_CBC, initial_vector)
     return cipher.encrypt(message)
 
-def decrypt_message(cipher_text, key, initial_vector):
+def decrypt_message(message, key):
     """Function to decipher a ciphered text using AES128"""
+    initial_vector = message[:16]
     decipher = AES.new(key, AES.MODE_CBC, initial_vector)
-    return decipher.decrypt(cipher_text)
+    return decipher.decrypt(message)
 
 def encrypt(text, key):
     """Library to encrypt manually"""
@@ -25,8 +26,7 @@ def encrypt(text, key):
 
 def decrypt(file, key):
     """Library to decrypt manually"""
+    key = base64.urlsafe_b64encode(key)
     fernet = Fernet(key)
-    with open(file, 'rb') as keyfile:
-        encrypted = keyfile.read()
-    decrypted = fernet.decrypt(encrypted)
+    decrypted = fernet.decrypt(file)
     return bytes.hex(decrypted)
