@@ -1,6 +1,7 @@
 """Library of functions to cipher or uncipher files"""
 
 import base64
+import random
 from Cryptodome.Cipher import AES
 from cryptography.fernet import Fernet
 
@@ -8,7 +9,8 @@ def encrypt_message(message, key):
     """Function to cipher a plain text using AES128"""
     length = 16 - (len(message) % 16)
     message += bytes([length])*length
-    initial_vector = message[:16]
+    initial_vector = ''.join([chr(random.randint(0, 0xFF)) for i in range(16)])
+    initial_vector = bytes(initial_vector, 'utf-8')[:16]
     cipher = AES.new(key, AES.MODE_CBC, initial_vector)
     return cipher.encrypt(message)
 

