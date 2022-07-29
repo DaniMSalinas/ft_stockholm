@@ -12,5 +12,5 @@ ransomware emulating wannacry attack
 # directory
 This ransomware have been programmed to ecrypt files with specific extension located at $USER/home/infection.
 
-# AES128
-In the current version of the program the ecryption system chosen is AES128 based on CBC model. Hexadecimal key with at least 64 hex characters is used.
+# AES256
+In the current version of the program the ecryption system chosen is AES256 based on CBC model. Hexadecimal key with at least 64 hex characters is used.
