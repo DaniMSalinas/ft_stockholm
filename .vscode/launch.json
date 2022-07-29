@@ -4,7 +4,6 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "-v get program version",
             "type": "python",
@@ -24,11 +23,12 @@
             "justMyCode": true
         },
         {
-            "name": "normal infection",
+            "name": "silence infection",
             "type": "python",
             "request": "launch",
             "program": "main.py",
             "console": "integratedTerminal",
+            "args": ["-s"],
             "justMyCode": true
         },
         {
@@ -38,6 +38,23 @@
             "program": "main.py",
             "console": "integratedTerminal",
             "args": ["-r", "5ef8572d3738892f309f1b5d56170c8c"],
+            "justMyCode": true
+        },
+        {
+            "name": "silent reverse infection",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "args": ["-s", "-r", "5ef8572d3738892f309f1b5d56170c8c"],
+            "justMyCode": true
+        },
+        {
+            "name": "normal infection",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
             "justMyCode": true
         }
     ]
