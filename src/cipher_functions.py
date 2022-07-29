@@ -6,7 +6,7 @@ from Cryptodome import Random
 from cryptography.fernet import Fernet
 
 def encrypt_manual(message, key):
-    """Function to encrypt a plain text using AES128"""
+    """Function to encrypt a plain text using AES256"""
     pad = (AES.block_size - len(message) % AES.block_size)\
                 * chr(AES.block_size - len(message) % AES.block_size)
     message = message + bytes(pad, "utf-8")
